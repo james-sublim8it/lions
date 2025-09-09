@@ -798,6 +798,55 @@ a:hover {
     margin: 20px 0;
 }
 
+/* Coming Events Widget */
+.coming-events {
+    margin-bottom: 2rem;
+}
+
+.coming-events .widget-title {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #03263B;
+    border-bottom: 2px solid #e9c46a;
+    padding-bottom: 0.5rem;
+}
+
+.coming-events .event-info h5 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.coming-events .event-info h5 a {
+    color: #03263B;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.coming-events .event-info h5 a:hover {
+    color: #e9c46a;
+}
+
+.coming-events .event-info p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.coming-events .event-info p:last-child {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #eee;
+}
+
+.coming-events .event-info a {
+    color: #03263B;
+    text-decoration: none;
+}
+
+.coming-events .event-info a:hover {
+    color: #e9c46a;
+}
+
 /* Pavilion Project Styles */
 .project-intro {
     background-color: #03263B;

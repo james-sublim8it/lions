@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load recent posts dynamically
     loadRecentPosts();
+    
+    // Load coming events dynamically
+    loadComingEvents();
 });
 
 // Function to load recent posts from news-and-events page
@@ -104,6 +107,107 @@ function populatePostsFromCurrentPage() {
     ).join('');
 }
 
+// Function to load coming events from news-and-events page
+async function loadComingEvents() {
+    const eventsContainer = document.querySelector('.coming-events');
+    if (!eventsContainer) return;
+    
+    try {
+        // If we're on the news-and-events page, populate from current page
+        if (window.location.pathname.includes('news-and-events') || 
+            window.location.pathname === '/' && document.querySelector('.event-item')) {
+            populateEventsFromCurrentPage();
+            return;
+        }
+        
+        // For other pages, fetch the news-and-events page
+        const response = await fetch('news-and-events.html');
+        if (!response.ok) throw new Error('Could not fetch news page');
+        
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Extract upcoming events
+        const eventItems = doc.querySelectorAll('.event-item');
+        const events = Array.from(eventItems).slice(0, 3).map(item => {
+            const title = item.querySelector('h3')?.textContent || 'Untitled Event';
+            const details = item.querySelector('.event-details');
+            const date = details?.querySelector('p')?.textContent?.replace('Date: ', '') || '';
+            const time = details?.querySelectorAll('p')[1]?.textContent?.replace('Time: ', '') || '';
+            const cost = details?.querySelectorAll('p')[2]?.textContent?.replace('Cost: ', '') || '';
+            
+            return { title, date, time, cost };
+        });
+        
+        // Update the events display
+        if (events.length > 0) {
+            const event = events[0]; // Show the first upcoming event
+            eventsContainer.innerHTML = `
+                <h4 class="widget-title">Coming Events</h4>
+                <div class="event-info">
+                    <h5><a href="news-and-events.html#upcoming-events">${event.title}</a></h5>
+                    <p><strong>Date:</strong> ${event.date}<br>
+                    <strong>Time:</strong> ${event.time}<br>
+                    <strong>Cost:</strong> ${event.cost}</p>
+                    <p><a href="news-and-events.html#upcoming-events">View all upcoming events →</a></p>
+                </div>
+            `;
+        } else {
+            eventsContainer.innerHTML = `
+                <h4 class="widget-title">Coming Events</h4>
+                <p><a href="news-and-events.html#upcoming-events">Check our News & Events page for upcoming activities</a></p>
+            `;
+        }
+        
+    } catch (error) {
+        console.error('Error loading coming events:', error);
+        // Fallback to static content if fetch fails
+        eventsContainer.innerHTML = `
+            <h4 class="widget-title">Coming Events</h4>
+            <p>Spaghetti Dinner<br>
+            Friday<br>
+            November, 29th, 2024<br>
+            5:30 - 7:30<br>
+            $15.00 Adults<br>
+            $5.00 kids</p>
+            <p><a href="news-and-events.html">View all events →</a></p>
+        `;
+    }
+}
+
+// Function to populate events when on the news-and-events page itself
+function populateEventsFromCurrentPage() {
+    const eventsContainer = document.querySelector('.coming-events');
+    const eventItems = document.querySelectorAll('.event-item');
+    
+    if (!eventsContainer || !eventItems.length) return;
+    
+    const events = Array.from(eventItems).slice(0, 3).map(item => {
+        const title = item.querySelector('h3')?.textContent || 'Untitled Event';
+        const details = item.querySelector('.event-details');
+        const date = details?.querySelector('p')?.textContent?.replace('Date: ', '') || '';
+        const time = details?.querySelectorAll('p')[1]?.textContent?.replace('Time: ', '') || '';
+        const cost = details?.querySelectorAll('p')[2]?.textContent?.replace('Cost: ', '') || '';
+        
+        return { title, date, time, cost };
+    });
+    
+    if (events.length > 0) {
+        const event = events[0]; // Show the first upcoming event
+        eventsContainer.innerHTML = `
+            <h4 class="widget-title">Coming Events</h4>
+            <div class="event-info">
+                <h5><a href="#upcoming-events">${event.title}</a></h5>
+                <p><strong>Date:</strong> ${event.date}<br>
+                <strong>Time:</strong> ${event.time}<br>
+                <strong>Cost:</strong> ${event.cost}</p>
+                <p><a href="#upcoming-events">View all upcoming events →</a></p>
+            </div>
+        `;
+    }
+}
+
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -122,19 +226,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('load', function() {
     document.body.classList.add('loaded');
 });
-
-// Simple calendar functionality (placeholder)
-function generateCalendar(month, year) {
-    // This is a placeholder for future calendar implementation
-    const calendarPlaceholder = document.querySelector('.calendar-placeholder');
-    if (calendarPlaceholder) {
-        calendarPlaceholder.innerHTML = `
-            <h5>Calendar for ${month}/${year}</h5>
-            <p>Calendar implementation coming soon...</p>
-        `;
-    }
-}
-
-// Initialize calendar with current date
-const currentDate = new Date();
-generateCalendar(currentDate.getMonth() + 1, currentDate.getFullYear());
