@@ -35,7 +35,74 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Load recent posts dynamically
+    loadRecentPosts();
 });
+
+// Function to load recent posts from news-and-events page
+async function loadRecentPosts() {
+    const postsContainer = document.querySelector('.recent-posts ul');
+    if (!postsContainer) return;
+    
+    try {
+        // If we're on the news-and-events page, populate from current page
+        if (window.location.pathname.includes('news-and-events') || 
+            window.location.pathname === '/' && document.querySelector('.news-item')) {
+            populatePostsFromCurrentPage();
+            return;
+        }
+        
+        // For other pages, fetch the news-and-events page
+        const response = await fetch('news-and-events.html');
+        if (!response.ok) throw new Error('Could not fetch news page');
+        
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Extract news items
+        const newsItems = doc.querySelectorAll('.news-item');
+        const posts = Array.from(newsItems).slice(0, 4).map(item => {
+            const id = item.id;
+            const title = item.querySelector('h3')?.textContent || 'Untitled';
+            return { id, title };
+        });
+        
+        // Update the posts list
+        postsContainer.innerHTML = posts.map(post => 
+            `<li><a href="news-and-events.html#${post.id}">${post.title}</a></li>`
+        ).join('');
+        
+    } catch (error) {
+        console.error('Error loading recent posts:', error);
+        // Fallback to static content if fetch fails
+        postsContainer.innerHTML = `
+            <li><a href="news-and-events.html#family-fun-day">Family Fun Day</a></li>
+            <li><a href="news-and-events.html#diabetes-donation">Donation to Diabetes Canada</a></li>
+            <li><a href="news-and-events.html#donation-34k">Udora Leaskdale Lions donate $34,000</a></li>
+            <li><a href="news-and-events.html#north-country-meats">North Country Meats Fundraiser</a></li>
+        `;
+    }
+}
+
+// Function to populate posts when on the news-and-events page itself
+function populatePostsFromCurrentPage() {
+    const postsContainer = document.querySelector('.recent-posts ul');
+    const newsItems = document.querySelectorAll('.news-item');
+    
+    if (!postsContainer || !newsItems.length) return;
+    
+    const posts = Array.from(newsItems).slice(0, 4).map(item => {
+        const id = item.id;
+        const title = item.querySelector('h3')?.textContent || 'Untitled';
+        return { id, title };
+    });
+    
+    postsContainer.innerHTML = posts.map(post => 
+        `<li><a href="#${post.id}">${post.title}</a></li>`
+    ).join('');
+}
 
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
