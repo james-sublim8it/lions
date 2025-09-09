@@ -1,0 +1,472 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap');
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+    line-height: 1.6;
+    color: #252525;
+    background-color: #190042;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway", sans-serif;
+    color: #353535;
+    font-weight: 700;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+/* Site Header */
+.site-header {
+    background-image: url('../images/header-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #141414;
+    position: relative;
+    overflow: hidden;
+}
+
+.site-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(20, 20, 20, 0.31);
+    z-index: 1;
+}
+
+.site-header-wrapper {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Logo and Site Title */
+.site-title-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.custom-logo {
+    width: 120px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.site-description {
+    color: #ffffff;
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+/* Navigation */
+.main-navigation {
+    position: relative;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+.main-menu {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.main-menu li {
+    position: relative;
+}
+
+.main-menu > li > a {
+    color: #ffffff;
+    padding: 15px 20px;
+    display: block;
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.main-menu > li > a:hover,
+.main-menu > li.current > a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Submenu */
+.sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #e9c46a;
+    list-style: none;
+    min-width: 250px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.has-submenu:hover .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.sub-menu a {
+    color: #ffffff;
+    padding: 12px 20px;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sub-menu a:hover {
+    background-color: rgba(233, 196, 106, 0.8);
+}
+
+/* Hero Section */
+.hero {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.page-title {
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: 300;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Main Content */
+.site-content {
+    display: grid;
+    grid-template-columns: 1fr 250px 200px;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.content-area {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Content */
+.page-content p {
+    margin-bottom: 1.5em;
+}
+
+.separator {
+    border: none;
+    height: 1px;
+    background-color: rgba(37, 37, 37, 0.1);
+    margin: 30px 0;
+}
+
+.centered-text {
+    text-align: center;
+}
+
+.highlight-box {
+    background-color: #03263B;
+    color: #ffffff;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 3px;
+}
+
+.image-left {
+    float: left;
+    margin: 0 20px 20px 0;
+}
+
+.lion-badge {
+    width: 58px;
+    height: 58px;
+}
+
+/* Sidebar */
+.widget-area {
+    background-color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.widget {
+    margin-bottom: 30px;
+}
+
+.widget:last-child {
+    margin-bottom: 0;
+}
+
+.widget-title {
+    color: #353535;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9c46a;
+}
+
+.widget ul {
+    list-style: none;
+}
+
+.widget li {
+    margin-bottom: 8px;
+    padding-left: 15px;
+    position: relative;
+}
+
+.widget li::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: #e9c46a;
+    font-size: 0.8em;
+}
+
+.widget a {
+    color: #353535;
+    font-size: 0.9em;
+}
+
+.widget a:hover {
+    color: #e9c46a;
+}
+
+/* Coming Events Widget */
+.coming-events p {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-left: 4px solid #e9c46a;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* Calendar Placeholder */
+.calendar-placeholder {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+}
+
+/* Contact Form Styles */
+.contact-info {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-left: 4px solid #e9c46a;
+    margin: 20px 0;
+}
+
+.contact-form {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+
+.contact-form h4 {
+    margin-bottom: 20px;
+    color: #353535;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #353535;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #e9c46a;
+    box-shadow: 0 0 0 2px rgba(233, 196, 106, 0.2);
+}
+
+.submit-button {
+    background-color: #e9c46a;
+    color: #ffffff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: rgba(233, 196, 106, 0.8);
+}
+
+/* Footer */
+.site-footer {
+    background-color: #141414;
+    color: #ffffff;
+    margin-top: 50px;
+    padding: 40px 0 20px;
+}
+
+.footer-widgets {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-widgets h4 {
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.site-info {
+    background-color: #2d2d2d;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    color: #686868;
+    font-size: 0.9em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .site-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .menu-toggle {
+        display: flex;
+    }
+    
+    .main-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #e9c46a;
+        padding: 0;
+    }
+    
+    .main-menu.active {
+        display: flex;
+    }
+    
+    .main-menu > li > a {
+        color: #ffffff;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sub-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        background-color: rgba(233, 196, 106, 0.8);
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .content-area {
+        padding: 20px;
+    }
+    
+    .custom-logo {
+        width: 80px;
+    }
+    
+    .site-title-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .custom-logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-header-wrapper {
+        padding: 10px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero {
+        padding: 30px 0;
+    }
+    
+    .image-left {
+        float: none;
+        margin: 0 auto 20px;
+        text-align: center;
+    }
+}
