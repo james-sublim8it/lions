@@ -109,13 +109,12 @@ function populatePostsFromCurrentPage() {
 
 // Function to load coming events from news-and-events page
 async function loadComingEvents() {
-    const eventsContainer = document.querySelector('.coming-events');
+    const eventsContainer = document.querySelector('.widget.coming-events');
     if (!eventsContainer) return;
     
     try {
         // If we're on the news-and-events page, populate from current page
-        if (window.location.pathname.includes('news-and-events') || 
-            window.location.pathname === '/' && document.querySelector('.event-item')) {
+        if (window.location.pathname.includes('news-and-events')) {
             populateEventsFromCurrentPage();
             return;
         }
@@ -131,28 +130,34 @@ async function loadComingEvents() {
         // Extract upcoming events
         const eventItems = doc.querySelectorAll('.event-item');
         const events = Array.from(eventItems).slice(0, 3).map(item => {
+            const id = item.id || '';
             const title = item.querySelector('h3')?.textContent || 'Untitled Event';
             const details = item.querySelector('.event-details');
             const date = details?.querySelector('p')?.textContent?.replace('Date: ', '') || '';
             const time = details?.querySelectorAll('p')[1]?.textContent?.replace('Time: ', '') || '';
-            const cost = details?.querySelectorAll('p')[2]?.textContent?.replace('Cost: ', '') || '';
             
-            return { title, date, time, cost };
+            return { id, title, date, time };
         });
         
-        // Update the events display
+        // Update the events display - show up to 3 events
         if (events.length > 0) {
-            const event = events[0]; // Show the first upcoming event
-            eventsContainer.innerHTML = `
-                <h4 class="widget-title">Coming Events</h4>
-                <div class="event-info">
-                    <h5><a href="news-and-events.html#upcoming-events">${event.title}</a></h5>
-                    <p><strong>Date:</strong> ${event.date}<br>
-                    <strong>Time:</strong> ${event.time}<br>
-                    <strong>Cost:</strong> ${event.cost}</p>
-                    <p><a href="news-and-events.html#upcoming-events">View all upcoming events →</a></p>
-                </div>
-            `;
+            let eventsHtml = '<h4 class="widget-title">Coming Events</h4>';
+            
+            events.forEach((event, index) => {
+                const eventLink = event.id ? `news-and-events.html#${event.id}` : 'news-and-events.html#upcoming-events';
+                eventsHtml += `
+                    <div class="event-info" onclick="window.location.href='${eventLink}';" style="cursor: pointer;">
+                        <h5><a href="${eventLink}">${event.title}</a></h5>
+                        <p><strong>${event.date}</strong><br>
+                        ${event.time}</p>
+                    </div>
+                    ${index < events.length - 1 ? '<hr style="margin: 1rem 0; border: none; border-top: 1px solid #eee;">' : ''}
+                `;
+            });
+            
+            eventsHtml += '<p style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid #eee;"><a href="news-and-events.html#upcoming-events">View all upcoming events →</a></p>';
+            
+            eventsContainer.innerHTML = eventsHtml;
         } else {
             eventsContainer.innerHTML = `
                 <h4 class="widget-title">Coming Events</h4>
@@ -165,46 +170,52 @@ async function loadComingEvents() {
         // Fallback to static content if fetch fails
         eventsContainer.innerHTML = `
             <h4 class="widget-title">Coming Events</h4>
-            <p>Spaghetti Dinner<br>
-            Friday<br>
-            November, 29th, 2024<br>
-            5:30 - 7:30<br>
-            $15.00 Adults<br>
-            $5.00 kids</p>
-            <p><a href="news-and-events.html">View all events →</a></p>
+            <div class="event-info" onclick="window.location.href='news-and-events.html#spaghetti-dinner-event';" style="cursor: pointer;">
+                <h5><a href="news-and-events.html#spaghetti-dinner-event">Spaghetti Dinner</a></h5>
+                <p><strong>Date:</strong> Friday, November 29th, 2024<br>
+                <strong>Time:</strong> 5:30 PM - 7:30 PM<br>
+                <strong>Cost:</strong> $15.00 Adults, $5.00 Kids</p>
+            </div>
+            <p style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid #eee;"><a href="news-and-events.html#upcoming-events">View all events →</a></p>
         `;
     }
 }
 
 // Function to populate events when on the news-and-events page itself
 function populateEventsFromCurrentPage() {
-    const eventsContainer = document.querySelector('.coming-events');
+    const eventsContainer = document.querySelector('.widget.coming-events');
     const eventItems = document.querySelectorAll('.event-item');
     
     if (!eventsContainer || !eventItems.length) return;
     
     const events = Array.from(eventItems).slice(0, 3).map(item => {
+        const id = item.id || '';
         const title = item.querySelector('h3')?.textContent || 'Untitled Event';
         const details = item.querySelector('.event-details');
         const date = details?.querySelector('p')?.textContent?.replace('Date: ', '') || '';
         const time = details?.querySelectorAll('p')[1]?.textContent?.replace('Time: ', '') || '';
-        const cost = details?.querySelectorAll('p')[2]?.textContent?.replace('Cost: ', '') || '';
         
-        return { title, date, time, cost };
+        return { id, title, date, time };
     });
     
     if (events.length > 0) {
-        const event = events[0]; // Show the first upcoming event
-        eventsContainer.innerHTML = `
-            <h4 class="widget-title">Coming Events</h4>
-            <div class="event-info">
-                <h5><a href="#upcoming-events">${event.title}</a></h5>
-                <p><strong>Date:</strong> ${event.date}<br>
-                <strong>Time:</strong> ${event.time}<br>
-                <strong>Cost:</strong> ${event.cost}</p>
-                <p><a href="#upcoming-events">View all upcoming events →</a></p>
-            </div>
-        `;
+        let eventsHtml = '<h4 class="widget-title">Coming Events</h4>';
+        
+        events.forEach((event, index) => {
+            const eventLink = event.id ? `#${event.id}` : '#upcoming-events';
+            eventsHtml += `
+                <div class="event-info" onclick="window.location.href='${eventLink}';" style="cursor: pointer;">
+                    <h5><a href="${eventLink}">${event.title}</a></h5>
+                    <p><strong>${event.date}</strong><br>
+                    ${event.time}</p>
+                </div>
+                ${index < events.length - 1 ? '<hr style="margin: 1rem 0; border: none; border-top: 1px solid #eee;">' : ''}
+            `;
+        });
+        
+        eventsHtml += '<p style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid #eee;"><a href="#upcoming-events">View all upcoming events →</a></p>';
+        
+        eventsContainer.innerHTML = eventsHtml;
     }
 }
 

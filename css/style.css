@@ -799,51 +799,79 @@ a:hover {
 }
 
 /* Coming Events Widget */
-.coming-events {
-    margin-bottom: 2rem;
+.widget.coming-events {
+    margin-bottom: 0;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
 }
 
-.coming-events .widget-title {
+.widget.coming-events .widget-title {
     margin-bottom: 1rem;
     font-size: 1.2rem;
-    color: #03263B;
+    color: #353535;
     border-bottom: 2px solid #e9c46a;
     padding-bottom: 0.5rem;
 }
 
-.coming-events .event-info h5 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.1rem;
+.widget.coming-events .event-info {
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    transition: background-color 0.2s ease;
 }
 
-.coming-events .event-info h5 a {
-    color: #03263B;
+.widget.coming-events .event-info:hover {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+}
+
+.widget.coming-events .event-info h5 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: #353535;
+}
+
+.widget.coming-events .event-info h5 a {
+    color: #353535;
     text-decoration: none;
     font-weight: 600;
 }
 
-.coming-events .event-info h5 a:hover {
+.widget.coming-events .event-info h5 a:hover {
     color: #e9c46a;
 }
 
-.coming-events .event-info p {
+.widget.coming-events .event-info p {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
     line-height: 1.4;
+    color: #666;
 }
 
-.coming-events .event-info p:last-child {
+.widget.coming-events .event-info p:last-child {
+    margin-bottom: 0;
+}
+
+.widget.coming-events > p:last-child {
     margin-top: 1rem;
     padding-top: 0.5rem;
     border-top: 1px solid #eee;
+    margin-bottom: 0;
 }
 
-.coming-events .event-info a {
-    color: #03263B;
+.widget.coming-events .event-info a,
+.widget.coming-events > p a {
+    color: #353535;
     text-decoration: none;
 }
 
-.coming-events .event-info a:hover {
+.widget.coming-events .event-info a:hover,
+.widget.coming-events > p a:hover {
     color: #e9c46a;
 }
 
