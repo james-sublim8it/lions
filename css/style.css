@@ -175,11 +175,11 @@ a:hover {
 /* Main Content */
 .site-content {
     display: grid;
-    grid-template-columns: 1fr 250px 200px;
+    grid-template-columns: 2fr 250px 320px;
     gap: 30px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 30px auto;
-    padding: 0 20px;
+    padding: 0 15px;
 }
 
 .content-area {
