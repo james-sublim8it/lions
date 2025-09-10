@@ -39,7 +39,8 @@ a:hover {
     background-attachment: fixed;
     background-color: #141414;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    z-index: 100;
 }
 
 .site-header::before {
@@ -55,7 +56,7 @@ a:hover {
 
 .site-header-wrapper {
     position: relative;
-    z-index: 2;
+    z-index: 1000;
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
@@ -83,6 +84,7 @@ a:hover {
 /* Navigation */
 .main-navigation {
     position: relative;
+    z-index: 9999;
 }
 
 .menu-toggle {
@@ -1146,23 +1148,47 @@ a:hover {
     .main-menu {
         display: none;
         flex-direction: column;
+        flex-wrap: nowrap !important;
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
         background-color: #e9c46a;
         padding: 0;
-        z-index: 1000;
+        z-index: 10000;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        border-radius: 0 0 8px 8px;
+        max-height: 400px;
+        overflow-y: auto;
+        width: 100%;
     }
     
     .main-menu.active {
-        display: flex;
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+    }
+    
+    .main-menu > li {
+        width: 100% !important;
+        display: block !important;
+        flex: none !important;
     }
     
     .main-menu > li > a {
-        color: #ffffff;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: #03263B;
+        border-bottom: 1px solid rgba(3, 38, 59, 0.2);
         padding: 15px 20px;
+        font-weight: 500;
+        display: block;
+        width: 100%;
+        text-align: left;
+        transition: background-color 0.2s ease;
+    }
+    
+    .main-menu > li > a:hover {
+        background-color: rgba(3, 38, 59, 0.1);
+        color: #03263B;
     }
     
     .sub-menu {
@@ -1170,7 +1196,30 @@ a:hover {
         opacity: 1;
         visibility: visible;
         transform: none;
-        background-color: rgba(233, 196, 106, 0.8);
+        background-color: rgba(3, 38, 59, 0.9);
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: block;
+    }
+    
+    .sub-menu li {
+        width: 100%;
+        display: block;
+    }
+    
+    .sub-menu a {
+        color: #ffffff !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 30px;
+        display: block;
+        transition: background-color 0.2s ease;
+        width: 100%;
+    }
+    
+    .sub-menu a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
     }
     
     .page-title {
