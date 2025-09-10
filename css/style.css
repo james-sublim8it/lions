@@ -548,16 +548,19 @@ a:hover {
 /* Event Styles */
 .event-highlight {
     background-color: #e9c46a;
-    color: #ffffff;
+    color: #03263B;
     padding: 25px;
     border-radius: 5px;
     margin: 20px 0;
     text-align: center;
+    border: 2px solid #03263B;
 }
 
 .event-highlight h3 {
-    color: #ffffff;
+    color: #03263B;
     margin-bottom: 15px;
+    font-size: 1.4em;
+    font-weight: bold;
 }
 
 .menu-items ul {
