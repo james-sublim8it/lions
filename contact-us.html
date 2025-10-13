@@ -117,7 +117,7 @@
                         
                         <div class="contact-form">
                             <h4>Contact Form</h4>
-                            <form action="#" method="post">
+                            <form id="contactForm">
                                 <div class="form-group">
                                     <label for="name">Name *</label>
                                     <input type="text" id="name" name="name" required>
@@ -136,10 +136,10 @@
                                 <div class="form-group">
                                     <label for="subject">Subject</label>
                                     <select id="subject" name="subject">
-                                        <option value="general">General Inquiry</option>
-                                        <option value="membership">Membership Information</option>
-                                        <option value="events">Events</option>
-                                        <option value="volunteer">Volunteer Opportunities</option>
+                                        <option value="General Inquiry">General Inquiry</option>
+                                        <option value="Membership Information">Membership Information</option>
+                                        <option value="Events">Events</option>
+                                        <option value="Volunteer Opportunities">Volunteer Opportunities</option>
                                     </select>
                                 </div>
                                 
@@ -148,7 +148,7 @@
                                     <textarea id="message" name="message" rows="5" required></textarea>
                                 </div>
                                 
-                                <button type="submit" class="submit-button">Send Message</button>
+                                <button type="button" class="submit-button" onclick="sendEmail()">Send Message</button>
                             </form>
                         </div>
                     </div>
@@ -166,5 +166,35 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script>
+        function sendEmail() {
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Validate required fields
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields (Name, Email, and Message).');
+                return;
+            }
+            
+            // Create email body
+            let emailBody = `Name: ${name}%0D%0A`;
+            emailBody += `Email: ${email}%0D%0A`;
+            if (phone) {
+                emailBody += `Phone: ${phone}%0D%0A`;
+            }
+            emailBody += `%0D%0AMessage:%0D%0A${message}`;
+            
+            // Create mailto link
+            const mailtoLink = `mailto:ullc-secretary@lionsa16.com?subject=${encodeURIComponent(subject)}&body=${emailBody}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+        }
+    </script>
 </body>
 </html>
