@@ -41,7 +41,107 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load coming events dynamically
     loadComingEvents();
+
+    // Enable in-page viewer for clickable gallery images
+    initPhotoLightbox();
 });
+
+function initPhotoLightbox() {
+    const galleryLinks = document.querySelectorAll('.photo-gallery a');
+    if (!galleryLinks.length) return;
+
+    const galleryItems = Array.from(galleryLinks)
+        .map(link => {
+            const fullSizeSrc = link.getAttribute('href');
+            const altText = link.querySelector('img')?.alt || 'Expanded gallery photo';
+            if (!fullSizeSrc) return null;
+            return { fullSizeSrc, altText };
+        })
+        .filter(item => item !== null);
+
+    if (!galleryItems.length) return;
+
+    let currentIndex = 0;
+
+    const lightbox = document.createElement('div');
+    lightbox.className = 'photo-lightbox';
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightbox.innerHTML = `
+        <div class="photo-lightbox-content" role="dialog" aria-modal="true" aria-label="Photo viewer">
+            <button class="photo-lightbox-close" aria-label="Close photo viewer">&times;</button>
+            <button class="photo-lightbox-nav photo-lightbox-prev" aria-label="Previous photo">&#10094;</button>
+            <img src="" alt="Expanded gallery photo">
+            <button class="photo-lightbox-nav photo-lightbox-next" aria-label="Next photo">&#10095;</button>
+        </div>
+    `;
+
+    document.body.appendChild(lightbox);
+
+    const lightboxImage = lightbox.querySelector('img');
+    const closeButton = lightbox.querySelector('.photo-lightbox-close');
+    const previousButton = lightbox.querySelector('.photo-lightbox-prev');
+    const nextButton = lightbox.querySelector('.photo-lightbox-next');
+
+    const showImageAtIndex = index => {
+        if (!galleryItems.length) return;
+
+        const normalizedIndex = (index + galleryItems.length) % galleryItems.length;
+        currentIndex = normalizedIndex;
+
+        const item = galleryItems[currentIndex];
+        lightboxImage.src = item.fullSizeSrc;
+        lightboxImage.alt = item.altText;
+    };
+
+    const showPreviousImage = () => {
+        showImageAtIndex(currentIndex - 1);
+    };
+
+    const showNextImage = () => {
+        showImageAtIndex(currentIndex + 1);
+    };
+
+    const closeLightbox = () => {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.src = '';
+    };
+
+    galleryLinks.forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault();
+            const fullSizeSrc = link.getAttribute('href');
+            if (!fullSizeSrc) return;
+
+            const clickedIndex = galleryItems.findIndex(item => item.fullSizeSrc === fullSizeSrc);
+            showImageAtIndex(clickedIndex >= 0 ? clickedIndex : 0);
+            lightbox.classList.add('is-open');
+            lightbox.setAttribute('aria-hidden', 'false');
+        });
+    });
+
+    closeButton.addEventListener('click', closeLightbox);
+    previousButton.addEventListener('click', showPreviousImage);
+    nextButton.addEventListener('click', showNextImage);
+
+    lightbox.addEventListener('click', event => {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener('keydown', event => {
+        if (!lightbox.classList.contains('is-open')) return;
+
+        if (event.key === 'Escape') {
+            closeLightbox();
+        } else if (event.key === 'ArrowLeft') {
+            showPreviousImage();
+        } else if (event.key === 'ArrowRight') {
+            showNextImage();
+        }
+    });
+}
 
 // Function to load recent posts from news-and-events page
 async function loadRecentPosts() {

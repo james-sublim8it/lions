@@ -99,6 +99,21 @@ This website is designed to work on:
    ```
 4. Navigate to `http://localhost:8000`
 
+## Image Thumbnail Workflow
+
+For photo galleries, keep full-size photos in the event folder and generate small thumbnails into a `thumbs` subfolder.
+
+1. Install Python dependencies:
+   ```bash
+   /Users/jwhite/dev/lions/.venv/bin/python -m pip install -r requirements.txt
+   ```
+2. Generate thumbnails:
+   ```bash
+   /Users/jwhite/dev/lions/.venv/bin/python shrink_images.py --src images/family-fun-day --dest images/family-fun-day/thumbs --width 220 --quality 76
+   ```
+
+This keeps page weight lower on GitHub Pages: gallery thumbnails load first, then full-size images load only when clicked.
+
 ## Maintenance Tasks
 
 ### Regular Updates Needed:
