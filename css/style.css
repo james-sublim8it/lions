@@ -344,6 +344,16 @@ a:hover {
     object-fit: cover;
 }
 
+#uxbridge-hospital-pledge-2026 .photo-gallery {
+    grid-template-columns: 1fr;
+}
+
+#uxbridge-hospital-pledge-2026 .photo-gallery img {
+    height: 420px;
+    object-fit: contain;
+    background-color: #f5f5f5;
+}
+
 .photo-lightbox {
     position: fixed;
     inset: 0;
